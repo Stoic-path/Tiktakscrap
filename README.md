@@ -18,3 +18,6 @@ playwright install chromium
 
 # Activar virtual enviroment
 To Activate the virtual enviroment with: .venv\Scripts\activate (powershell)
+
+# Ejecutar programa
+python scraper_tiktok.py khabi.lame
