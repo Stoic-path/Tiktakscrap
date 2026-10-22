@@ -21,3 +21,9 @@ To Activate the virtual enviroment with: .venv\Scripts\activate (powershell)
 
 # Ejecutar programa
 python scraper_tiktok.py khabi.lame
+
+
+# Embeddings
+uv pip install sentence-transformers
+New-Item -Path "analizar_embeddings.py" -ItemType File -Force
+code analizar_embeddings.py

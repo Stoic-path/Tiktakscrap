@@ -1,0 +1,19 @@
+{
+    "username": "khaby.lame",
+    "texto_analizado": "Khabane lame. Se vuoi ridere sei nel posto giusto😎 If u wanna laugh u r in the right place😎.",
+    "arquetipo_dominante": "Entretenimiento y Humor",
+    "scores_embeddings_hf": {
+        "Entretenimiento y Humor": 0.1421,
+        "Comunidad y Tendencias": 0.0576,
+        "Educación y Tecnología": 0.0335,
+        "Negocios y Corporativo": 0.0271,
+        "Estilo de Vida y Fitness": -0.0064
+    },
+    "metricas_engagement": {
+        "promedio_likes": 2068510.0,
+        "promedio_comentarios": 21527.7,
+        "promedio_compartidos": 62546.7,
+        "engagement_rate_porcentaje": 1.3206,
+        "ratio_viralidad_compartidos_vs_likes_porcentaje": 3.02
+    }
+}
