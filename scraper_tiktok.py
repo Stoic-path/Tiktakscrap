@@ -2,6 +2,7 @@
 # IMPORTACIÓN DE LIBRERÍAS (Nativas + Playwright)
 # ==============================================================================
 import csv   # Librería nativa para generar archivos tabulares (.csv)
+import os    # Librería nativa para manejo de rutas y archivos
 import json  # Librería nativa para convertir texto JSON en diccionarios de Python
 import sys   # Librería nativa para leer el usuario que escribas en la terminal
 import time  # Librería nativa para manejo de tiempos (timestamps)
@@ -153,39 +154,18 @@ def extraer_datos_tiktok(username: str, max_videos: int = 10) -> dict:
 
 
 def exportar_resultados(datos: dict, prefijo_archivo: str):
-    """
-    Toma el diccionario final y genera dos archivos locales:
-    1. Un archivo JSON jerárquico.
-    2. Un archivo CSV plano ideal para Excel o Pandas.
-    """
-    # 1. EXPORTACIÓN A JSON
-    archivo_json = f"{prefijo_archivo}_datos.json"
+    # Crear la carpeta 'dataScrap' automáticamente si no existe
+    carpeta_salida = "dataScrap"
+    os.makedirs(carpeta_salida, exist_ok=True)
+
+    # 1. EXPORTACIÓN A JSON (dentro de dataScrap/)
+    archivo_json = os.path.join(carpeta_salida, f"{prefijo_archivo}_datos.json")
     with open(archivo_json, mode="w", encoding="utf-8") as f_json:
         json.dump(datos, f_json, ensure_ascii=False, indent=4)
     print(f"[+] Archivo JSON generado: {archivo_json}")
 
-    # 2. EXPORTACIÓN A CSV (Tabla Desnormalizada)
-    archivo_csv = f"{prefijo_archivo}_publicaciones.csv"
-    perfil = datos.get("perfil", {})
-    publicaciones = datos.get("ultimas_publicaciones", [])
-
-    columnas = [
-        "username", "nombre", "biografia", "seguidores", "total_publicaciones",
-        "video_id", "fecha_timestamp", "likes", "comentarios", "compartidos"
-    ]
-
-    with open(archivo_csv, mode="w", encoding="utf-8-sig", newline="") as f_csv:
-        writer = csv.DictWriter(f_csv, fieldnames=columnas)
-        writer.writeheader()
-
-        if not publicaciones:
-            writer.writerow(perfil)
-        else:
-            for video in publicaciones:
-                fila_combinada = {**perfil, **video}
-                writer.writerow(fila_combinada)
-
-    print(f"[+] Archivo CSV generado: {archivo_csv}")
+    # 2. EXPORTACIÓN A CSV (dentro de dataScrap/)
+    archivo_csv = os.path.join(carpeta_salida, f"{prefijo_archivo}_publicaciones.csv")
 
 
 # ==============================================================================

@@ -1,17 +1,24 @@
 import json
+import os
 import sys
 from sentence_transformers import SentenceTransformer, util
 
 
 def analizar_perfil_con_embeddings(archivo_json: str):
+    carpeta_salida = "dataScrap"
+    os.makedirs(carpeta_salida, exist_ok=True)
+
+    # Si pasas solo "candido...fitnnes_datos.json", lo busca automáticamente dentro de dataScrap/
+    if not os.path.exists(archivo_json):
+        archivo_json = os.path.join(carpeta_salida, archivo_json)
+
     # 1. Cargar los datos extraídos previamente por el scraper
     with open(archivo_json, mode="r", encoding="utf-8") as f:
         datos = json.load(f)
 
+    # Extraer nodos del JSON y armar el texto para el modelo
     perfil = datos.get("perfil", {})
     videos = datos.get("ultimas_publicaciones", [])
-
-    # Unimos nombre, biografía y descripciones de videos (si existen) para crear el corpus
     textos_videos = " ".join([v.get("descripcion", "") for v in videos if v.get("descripcion")])
     texto_creador = f"{perfil.get('nombre', '')}. {perfil.get('biografia', '')}. {textos_videos}".strip()
 
@@ -55,7 +62,7 @@ def analizar_perfil_con_embeddings(archivo_json: str):
     promedio_compartidos = round(total_compartidos / n_videos, 2)
 
     # Engagement Rate por publicación sobre el total de seguidores (%)
-    engagement_rate = round((( (total_likes + total_comentarios + total_compartidos) / n_videos ) / seguidores) * 100, 4)
+    engagement_rate = round((((total_likes + total_comentarios + total_compartidos) / n_videos) / seguidores) * 100, 4)
     # Tasa de viralidad: cuántos compartidos hay por cada 100 likes
     ratio_viralidad = round((total_compartidos / max(total_likes, 1)) * 100, 2)
 
@@ -73,7 +80,8 @@ def analizar_perfil_con_embeddings(archivo_json: str):
         }
     }
 
-    archivo_salida = f"{perfil.get('username', 'perfil')}_analisis_hf.json"
+    # Guardar el análisis de Hugging Face también dentro de dataScrap/
+    archivo_salida = os.path.join(carpeta_salida, f"{perfil.get('username', 'perfil')}_analisis_hf.json")
     with open(archivo_salida, mode="w", encoding="utf-8") as f_out:
         json.dump(reporte, f_out, ensure_ascii=False, indent=4)
 
@@ -85,4 +93,4 @@ def analizar_perfil_con_embeddings(archivo_json: str):
 
 if __name__ == "__main__":
     archivo = sys.argv[1] if len(sys.argv) > 1 else "tiktok_datos.json"
-    analizar_perfil_con_embeddings(archivo) 
+    analizar_perfil_con_embeddings(archivo)

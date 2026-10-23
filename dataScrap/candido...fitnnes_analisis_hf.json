@@ -1,0 +1,19 @@
+{
+    "username": "candido...fitnnes",
+    "texto_analizado": "FOCUS💡. MENTALIDAD DEL 1%.",
+    "arquetipo_dominante": "Estilo de Vida y Fitness",
+    "scores_embeddings_hf": {
+        "Estilo de Vida y Fitness": 0.1374,
+        "Comunidad y Tendencias": 0.0893,
+        "Entretenimiento y Humor": 0.0781,
+        "Negocios y Corporativo": 0.0722,
+        "Educación y Tecnología": 0.0111
+    },
+    "metricas_engagement": {
+        "promedio_likes": 10950.4,
+        "promedio_comentarios": 80.4,
+        "promedio_compartidos": 398.9,
+        "engagement_rate_porcentaje": 1.0391,
+        "ratio_viralidad_compartidos_vs_likes_porcentaje": 3.64
+    }
+}
